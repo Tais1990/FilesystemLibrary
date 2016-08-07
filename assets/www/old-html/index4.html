@@ -1,0 +1,86 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Погода</title>
+        <script src="cordova-2.2.0.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body onLoad=calculation()>
+        <div id="clock" class="weather-clock">
+        </div>
+        <div id="weather-icon"> 
+        </div>
+        <div class="weather-bottom">
+            <div class="weather-info">
+                <table width="100%">
+                    <tr>
+                        <td>Температура</td>
+                        <td id="temp"></td>
+                    </tr>                    
+                    <tr>
+                        <td>Влажность</td>
+                        <td id="humidity"></td>
+                    </tr>                    
+                    <tr>
+                        <td>Облачность</td>
+                        <td id="clouds"></td>
+                    </tr>
+                    <tr>
+                        <td>Скорость ветра</td>
+                        <td id="wind_speed"></td>
+                    </tr>
+                    <tr>
+                        <td>Таймер</td>
+                        <td id="Timer"></td>
+                    </tr>                
+                </table>
+            <div>
+            <center>
+
+            <button onclick = "nulltimer()" class="weather-bottomTimer">Сбросить таймер</button>
+            
+            <p><select size="2" name="NameCity" id = "NameCity" ONCHANGE="ChangeCity(this.options[this.selectedIndex].value)" class="weather-select">
+          <!--      <option disabled>Выберите город</option>
+                <option selected value="Yekaterinburg">Екатеринбург</option>
+                <option value="Moscow">Москва</option>
+                <option value="Bar,me">Бар</option>-->
+            </select></p>
+            <!-- Добавляем город-->
+            <!--
+            <input type="button" value="Добавить город" id="show-button" class="weather-bottomTimer">            
+            <div id="prompt-form-container">
+                <form id="prompt-form">
+                    <div id="prompt-message"></div>
+                    <center>
+                    <input type="text"   name="Edit" >
+                    </center>
+                      
+                    <input type="button" name="OK"     value="OK"     class="weather-bottomTimer">
+                    <input type="button" name="cancel" value="Отмена" class="weather-bottomTimer">
+                </form>
+            </div>            
+            
+            <text   id ="Edit" > ТЕСТ </text>-->
+            <!-- Тестовая кнопка и диологовое окно -->            
+            <button id="button-add-city" class="weather-bottomTimer" onclick = "AddCity()">Добавить город</button>          
+            </center>
+            <div id="city_name" class="weather-city"></div>
+        </div> 
+        <script type="text/javascript" src="cordova-2.2.0.js"></script>        
+        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="js/core.js"></script>
+        <script type="text/javascript" src="js/dialogscript.js"></script>
+        <script type="text/javascript" src="js/dialog.js"></script>
+        <script type="text/javascript" src="js/SQLLight.js"></script>
+        
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>

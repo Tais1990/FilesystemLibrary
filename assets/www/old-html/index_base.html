@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="cordova-2.2.0.js"></script>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"/></script>
+
+
+<script>
+/*
+//add listener when device ready
+    alert("Begin open all");
+    document.addEventListener("deviceready", onDeviceReady, false);
+    var db = window.openDatabase("Dummy_DB", "1.0", "Just a Dummy DB", 200000); //will create database Dummy_DB or open it
+    alert("After open")
+    //function will be called when device ready
+    function onDeviceReady(){
+        alert("onDeviceReady");
+        db.transaction(populateDB, errorCB, successCB);
+    }
+ 
+    //create table and insert some record
+    function populateDB(tx) {
+        alert("Create table");
+        tx.executeSql('DROP TABLE IF EXISTS SoccerPlayer');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS SoccerPlayer (id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Club TEXT NOT NULL)');
+        tx.executeSql('INSERT INTO SoccerPlayer(Name,Club) VALUES ("Alexandre Pato", "AC Milan")');
+        tx.executeSql('INSERT INTO SoccerPlayer(Name,Club) VALUES ("Van Persie", "Arsenal")');
+    }
+ 
+    //function will be called when an error occurred
+    function errorCB(err)
+    {
+        alert("Error processing SQL: "+err.code);
+    }
+ 
+    //function will be called when process succeed
+    function successCB() {
+        alert("success!");
+        db.transaction(queryDB,errorCB);
+    }
+ 
+    //select all from SoccerPlayer
+    function queryDB(tx)
+    {
+        alert("queryDB");
+        tx.executeSql('SELECT * FROM SoccerPlayer',[],querySuccess,errorCB);un
+    }
+ un
+    function querySuccess(tx,result){
+        alert("querySuccess");
+        $('#SoccerPlayerList').empty();
+        $.each(result.rows,function(index){
+            var row = result.rows.item(index);
+            $('#SoccerPlayerList').append('<li><a href="#"><h3 class="ui-li-heading">'+row['Name']+'</h3><p class="ui-li-desc">Club '+row['Club']+'</p></a></li>');
+        });
+ 
+        $('#SoccerPlayerList').listview();
+    }
+    */
+
+
+
+  //  document.addEventListener("deviceready", onDeviceReady, false);
+ 
+ 
+// Cordova is ready 
+ function onDeviceReady() {
+    alert("OPEN");
+        var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
+        db.transaction(populateDB, errorCB, successCB);
+    }
+
+    // Populate the database 
+    //
+    function populateDB(tx) {
+        tx.executeSql('DROP TABLE IF EXISTS DEMO');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "123")');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row2")');
+    }
+
+    // Query the database
+    //
+    function queryDB(tx) {
+        tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+    }
+
+    // Query the success callback
+    //
+    function querySuccess(tx, results) {
+
+        
+        var len = results.rows.length;
+        //alert("before arra");
+        var Array_ = [];
+        //alert("after array");
+        var NameField = ["id","data"];
+        var NameField1 = ["id","name"];
+        alert("DEMO table: " + len + " rows found.");
+        for (var i=0; i<len; i++)
+        {
+ //           Array_[i].id = eval(NameField[0]);
+        //    alert("eva1");
+            var s1 = results.rows.item(i)[NameField[0]];
+            var s2 = results.rows.item(i)[NameField[1]];
+            var s = '{"id" : "' + s1 + '", "name" : "' + s2  + '"}'; 
+            var n = '{"id" : "123", "name" : "321"}'
+            alert(s + " second: " + n);
+            var t = new String()
+            var Obj = JSON.parse(s);
+            alert(Obj);
+         //   Array_.push(JSON.parse(s)) ;// eval("results.rows.item(i)."+NameField[0]);
+         //   alert("eval1");
+  //          Array_[i].name = eval("results.rows.item(i)."+NameField[1]);
+            alert("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+        }
+        
+        
+        for (var i = 0; i < len; i++)
+        {
+            alert("123");
+      //       alert(Array_[i].id + " " + Array_[i].name);
+        }
+        
+
+        
+        
+        
+           
+    }
+
+    // Transaction error callback
+    //
+    function errorCB(err) {
+        alert("Error processing SQL: "+err.code + " " + err.message);
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        //var ARR = Select_('DEMO', ['id', 'data']);
+        
+        alert("Ran Array");
+        /*
+        for (var i = 0; i < ARR.length; i++)
+        {
+            var k = ARR[i].id + 10;
+            alert("Data : newid - " + k + " data - " + ARR[i].data)
+        }
+        */
+        /*
+        var one = {
+            callBackOne : function(e)
+            {
+                alert("EVE ONE: " + e.message);
+            }   
+        }; 
+        var two = {
+            callBackTwo : function(e)
+            {
+                alert("EVE TWO: " + e.message);
+            }            
+        }; 
+        // Регистрируем наблюдателей для событий someEventForOne и someEventForTwo:
+        observerable.addListener( one, "someEventForOne", "callBackOne");
+        observerable.addListener( two, "someEventForTwo", "callBackTwo");
+
+        // отписываемся
+        observerable.removeListener(one, "someEventForOne", "callBackOne");
+        // Теперь допустим, что то произошло и мы в коде вызвали события
+        // someEventForOne и someEventForTwo, а заодно передаём 
+        // какую нибудь полезную информацию :
+        observerable.triggerEvent("someEventForOne", {message : "i am one event"});
+        observerable.triggerEvent("someEventForTwo", {message : "i am two event"});
+        */
+        Transaction(function(a,b){alert("10")});
+        alert("end");
+            
+        
+  //      var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
+  //      db.transaction(queryDB, errorCB);
+    }
+
+
+	</script>
+    <script type="text/javascript" src="js/SQLLight.js"></script>
+    <script type="text/javascript" src="js/event.js"></script>
+
+
+</head>
+<body>
+ 
+<div data-role="page">
+  <div data-role="header" data-position="fixed" data-theme="b">
+    <h1>Soccer Player</h1>
+  </div>
+  <div data-role="content">
+  <!--   <ul id="SoccerPlayerList">
+    </ul> -->
+    <button onclick = "onDeviceReady()">BD</button>
+    <button onclick = 'F()'>function</button>
+
+  </div>
+</div>
+<!--end of Soccer Player Page-->
+</body>
+</html>

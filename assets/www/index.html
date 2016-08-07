@@ -1,0 +1,141 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+
+        <link rel="stylesheet" type="text/css" href="css/index.css" />  <!-- подключаем стиливую таблицу -->
+        <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="c2n5ua4texfat5g"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        
+        <title>Погода</title>
+    </head>
+    <body onLoad=calculation()> <!-- перед тем, как всё отрисовывать, вычисляем нелбходимые характеристики-->
+        <div class = "tachpat" ontouchstart="Navigator.touch(event);" ontouchmove ="Navigator.move(event);" ontouchend = "Navigator.leave(event);">
+            <!--развёртываем подложку для прокрутки-->
+        <div data-role="page" id="pageone" class = "main-page"> <!--первая страница-->
+            <div id="clock" class="weather-clock"></div>
+            <div id="weather-icon"></div>
+            <div class="weather-info">
+                <table width="100%"> <!--таблица с данными о погоде в выбранном городе-->
+                    <tr> <td>Температура    </td> <td id="temp">        </td> </tr>                    
+                    <tr> <td>Влажность      </td> <td id="humidity">    </td> </tr>                    
+                    <tr> <td>Облачность     </td> <td id="clouds">      </td> </tr>
+                    <tr> <td>Скорость ветра </td> <td id="wind_speed">  </td> </tr>
+                    <tr> <td>Таймер         </td> <td id="Timer">       </td> </tr>                
+                </table>
+            </div>       
+            <center> <!-- Кнопки и выпадающие списки -->
+                <button onclick = "nulltimer()" class="weather-bottomTimer">Сбросить таймер</button> <br>
+                <select size="1" name="NameCity" id = "NameCity" ONCHANGE="ChangeCity(this.options[this.selectedIndex].value)" class="weather-select"></select><br>
+                <button id="button-add-city" class="weather-bottomTimer" onclick = "AddCity()">Добавить город</button><br>
+                <button onclick = "test()" class="weather-bottomTimer">ТЕСТ</button><br>
+                <button onclick = "DB()" class="weather-bottomTimer">Окно тестирования БД</button> 
+            </center>
+            <div id="city_name" class="weather-city"></div>             
+        </div> <!-- конец главной страницы-->
+         <!-- вторая страница -->
+        <div data-role="page" id="pagesecond" class = "second-page">
+            <div class="table-city">
+                <div class="procrutka" ontouchstart = "Navigator.scr(event);">
+                    <table id = "table-city" width="100%"></table>
+                </div>
+                <div class="bottom-eliment">
+                    <button onclick = "UpdateTableCity()"  class="weather-bottomTimer">Сохранить данные</button><br>
+                    <button onclick = "DefualtTableCity()" class="weather-bottomTimer">По умолчанию</button><br>
+                    <button onclick = "AddCity()"          class="weather-bottomTimer">Добавить город</button><br>
+                    <button onclick = "DeleteTableCity()"  class="weather-bottomTimer">Удалить выделенные записи</button><br>
+                </div>
+            </div>
+        </div>
+         <!-- третья страница -->
+        <div data-role="page" id="pagethird" class = "third-page">
+            <center>
+                <div class="weather-info">Температурные графики</div>
+                <div class="table-city"> <!-- задаём сстиль оформления текста-->
+                    <div class="top-eliment">
+                        <div class="procrutkaSmal" ontouchstart = "Navigator.scr(event);">
+                            <table id = "table-city-graph" width="100%"></table>
+                        </div>
+                        <div class="right-eliment">
+                            <input type="date" id = "begin-date" class = "weather-select"     style = "font-size : 17px;  width: 120px"> 
+                            <input type="date" id =   "end-date" class = "weather-select"     style = "font-size : 17px;  width: 120px"> 
+                            <button onclick = "synchronize()"    class = "weather-bottomTimer" style = "font-size : 15px;  width: 120px">Синхронизировать</button>
+                        </div>   
+                    </div>
+                </div>
+                <div class="bottom-eliment" style="top: 30%; clear: left">
+                    <div id="curve_chart" style="width: 100%; height: 50%"></div>                   
+                </div>
+            </center>
+        </div>
+        <!-- четвёртая страница -->
+        <div data-role="page" id="pagefourth" class = "fourth-page">
+            <center>
+                <div class="weather-info">Температурные графики</div>
+                <div class="table-city"> <!-- задаём сстиль оформления текста-->
+                    <div class="top-eliment">
+                        <div class="procrutkaSmal" ontouchstart = "Navigator.scr(event);">
+                            <table id = "table-city-graph" width="100%"></table>
+                        </div>
+                        <div class="right-eliment">
+                            <input type="date" id = "begin-date" class = "weather-select"     style = "font-size : 17px;  width: 120px"> 
+                            <input type="date" id =   "end-date" class = "weather-select"     style = "font-size : 17px;  width: 120px"> 
+                            <button onclick = "synchronize()"    class = "weather-bottomTimer" style = "font-size : 15px;  width: 120px">Синхронизировать</button>
+                        </div>   
+                    </div>
+                </div>
+                <div class="bottom-eliment" style="top: 30%; clear: left">
+                    <div id="curve_chart" style="width: 100%; height: 50%"></div>                   
+                </div>
+            </center>
+        </div>
+
+
+        </div>      
+        
+        
+
+        
+        <!--основной скрипт-->
+        <script type="text/javascript" src="js/core.js"></script>
+        <!--скрипт для работы с городами-->
+        <script type="text/javascript" src="js/city.js"></script>
+        <!--скрипт для работы с погодой-->
+        <script type="text/javascript" src="js/weather.js"></script> 
+
+        <!--ПЛАГИНЫ-->
+        <script type="text/javascript" src="js/test.js"></script> 
+        <!--плагины с диалоговыми окнами-->
+        <script type="text/javascript" src="js/plagins/dialogwindow.js"></script>         
+        <script type="text/javascript" src="js/plagins/dialog.js"></script> 
+        <!--проброска сообщений -->
+        <script type="text/javascript" src="js/plagins/event.js"></script>
+        <!--плагины с внутренней базой данных-->
+        <script type="text/javascript" src="js/plagins/SQLLight.js"></script> 
+        <!--плагин для работы с датабумом и рисунками гугловскими, а точнее не плагин, а меелкий скрипт
+        на реализацию конкретного функционала, т.к. у них уже всё написано норм-->
+        <script type="text/javascript" src="js/plagins/databoom.js"></script>
+
+        <script type="text/javascript" src="cordova-2.2.0.js"></script> 
+        <script type="text/javascript" src="js/plagins/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://databoom.space/databoom.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!--    <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>-->
+
+
+        <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.2-latest.js" type="text/javascript"></script>
+
+
+ <!--       <script type="text/javascript">app.initialize();</script>-->
+           
+    </body>
+
+       
+
+</html>

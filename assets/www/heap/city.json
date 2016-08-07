@@ -1,0 +1,34 @@
+{
+	"Type" : "Выпадающий список", 
+	"array": [
+		{
+			"cityCode" : "Yekaterinburg",
+			"cityName": "Yekaterinburg",
+			"countryName": "RU",
+			"displayName": "Екатеринбург"
+		},
+		{
+			"cityCode" : "Moscow",
+			"cityName": "Moscow",
+			"countryName": "RU",
+			"displayName": "Москва"
+		},
+		{
+			"cityCode" : "Bar,me",
+			"cityName": "Bar",
+			"countryName": "Me",
+			"displayName": "Катин БАР"
+		}
+	]
+}
+
+
+
+// пример как считывать информацию
+function GetCitySelect()
+{
+   $.getJSON("js/city.json")
+  .success(function(data) { CreateSelect(data.city)})
+  .error(function() { alert("Не смогли подцепить данные для выпадающего списка"); });
+
+}
